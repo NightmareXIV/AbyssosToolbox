@@ -1,0 +1,11 @@
+﻿{
+  "Author": "Eternita",
+  "Name": "AbyssosToolbox",
+  "InternalName": "AbyssosToolbox",
+  "AssemblyVersion": "9.0.0.0",
+  "Description": "An assistance tool for fights in Abyssos.",
+  "ApplicableVersion": "any",
+  "RepoUrl": "https://github.com/NightmareXIV/AbyssosToolbox",
+  "DalamudApiLevel": 7,
+  "LoadPriority": 0
+}
