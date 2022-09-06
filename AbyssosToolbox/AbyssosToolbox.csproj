@@ -39,6 +39,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\ECommons\ECommons\ECommons.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Reference Include="Newtonsoft.Json">
 			<HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
 			<Private>False</Private>
@@ -61,6 +65,10 @@
 		</Reference>
 		<Reference Include="FFXIVClientStructs">
 			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Reloaded.Hooks.Definitions">
+			<HintPath>$(DalamudLibPath)Reloaded.Hooks.Definitions.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
