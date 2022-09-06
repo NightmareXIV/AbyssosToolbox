@@ -17,6 +17,7 @@ namespace AbyssosToolbox
         internal List<Vector2> CardinalTiles = new();
         internal List<Vector2> IntercardinalTiles = new();
         internal List<uint> Swaps = new();
+        internal Config config;
         
 
         public AbyssosToolbox(DalamudPluginInterface pi)
@@ -25,8 +26,9 @@ namespace AbyssosToolbox
             ECommons.ECommons.Init(pi, Module.SplatoonAPI);
             new TickScheduler(delegate
             {
+                config = Svc.PluginInterface.GetPluginConfig() as Config ?? new();
                 memory = new();
-                EzConfigGui.Init(this.Name, Gui.Draw);
+                EzConfigGui.Init(this.Name, Gui.Draw, config);
                 EzCmd.Add("/abyssos", EzConfigGui.Open, "Open plugin interface");
                 ClientState_TerritoryChanged(null, Svc.ClientState.TerritoryType);
             });
@@ -89,21 +91,11 @@ namespace AbyssosToolbox
                         }
                     }
                     var elements = new List<Element>();
-                    foreach(var x in tiles.Where(x => x.X.InRange(80, 120) && x.Y.InRange(80, 120) && !IntercardinalTiles.Contains(x) && !CardinalTiles.Contains(x)))
+                    foreach(var el in tiles.Where(x => x.X.InRange(80, 120) && x.Y.InRange(80, 120) && 
+                    (P.config.HighlightSourceTiles || (!IntercardinalTiles.Contains(x) && !CardinalTiles.Contains(x)))
+                    ))
                     {
-                        elements.Add(new Element(2)
-                        {
-                            refX = x.X,
-                            refY = x.Y - 5,
-                            refZ = 0,
-                            offX = x.X,
-                            offY = x.Y + 5,
-                            offZ = 0,
-                            Filled = true,
-                            radius = 5,
-                            includeRotation = true,
-                            color = 0x78F700FF
-                        }) ;
+                        elements.Add(CreateElement(el)) ;
                     }
                     Splatoon.AddDynamicElements("AbyssosToolbox.P6S_Tiles", elements.ToArray(), new long[] { -1, -2 });
                 }
@@ -115,6 +107,25 @@ namespace AbyssosToolbox
             }
         }
 
+        internal static Element CreateElement(Vector2 x, float z = 0)
+        {
+            return new Element(ElementType.LineBetweenTwoFixedCoordinates)
+            {
+                refX = x.X,
+                refY = x.Y - 5,
+                refZ = z,
+                offX = x.X,
+                offY = x.Y + 5,
+                offZ = z,
+                Filled = true,
+                radius = 5,
+                includeRotation = true,
+                color = P.config.Color,
+                FillStep = P.config.FillStep,
+                thicc = P.config.Thickness,
+            };
+        }
+
         internal void ResetMechanic()
         {
             ProcessAt = long.MaxValue;
@@ -123,7 +134,7 @@ namespace AbyssosToolbox
             CardinalTiles.Clear();
         }
 
-        IEnumerable<Vector2> GenerateCardinalUnsafeTiles(Vector2 source)
+        internal static IEnumerable<Vector2> GenerateCardinalUnsafeTiles(Vector2 source)
         {
             for (var i = -4; i <= 4; i++)
             {
@@ -132,7 +143,7 @@ namespace AbyssosToolbox
             }
         }
 
-        IEnumerable<Vector2> GenerateIntercardinalUnsafeTiles(Vector2 source)
+        internal static IEnumerable<Vector2> GenerateIntercardinalUnsafeTiles(Vector2 source)
         {
             for (var i = -4; i <= 4; i++)
             {

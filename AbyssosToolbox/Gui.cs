@@ -1,4 +1,5 @@
-﻿using ECommons.SplatoonAPI;
+﻿using ECommons.MathHelpers;
+using ECommons.SplatoonAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +24,41 @@ namespace AbyssosToolbox
             {
                 P.memory.ProcessMapEffectHook.Original(P.memory.Addr, (uint)a1, (ushort)a2, (ushort)a3);
             }*/
+            var c = P.config.Color.ToVector4();
+            if(ImGui.ColorEdit4("Color", ref c, ImGuiColorEditFlags.NoInputs))
+            {
+                P.config.Color = c.ToUint();
+            }
+            ImGuiEx.TextWrapped(ImGuiColors.DalamudOrange, "These settings are subject to Splatoon general settings");
+            ImGui.SetNextItemWidth(60);
+            ImGui.DragFloat("Thickness", ref P.config.Thickness, 0.01f, 1f, 100f);
+            ImGui.SetNextItemWidth(60);
+            ImGui.DragFloat("Fill step", ref P.config.FillStep, 0.01f, 1f, 100f);
+            ImGui.Checkbox("Highlight source tiles", ref P.config.HighlightSourceTiles);
             if (ImGui.Button("Test splatoon connection"))
             {
-                var el = new Element(0)
+                var pos = Svc.ClientState.LocalPlayer.Position.ToVector2();
+                var tiles = new HashSet<Vector2>();
+                if (Environment.TickCount % 1000 > 500)
                 {
-                    refX = Svc.ClientState.LocalPlayer.Position.X,
-                    refY = Svc.ClientState.LocalPlayer.Position.Z,
-                    refZ = Svc.ClientState.LocalPlayer.Position.Y,
-                    radius = 5f,
-                    color = ImGuiColors.DalamudViolet.ToUint()
-                };
-                Splatoon.AddDynamicElements("Splatoon test", new Element[] { el }, new long[] { Environment.TickCount64 + 10000, -1, -2 });
+                    foreach (var z in GenerateCardinalUnsafeTiles(pos))
+                    {
+                        tiles.Add(z);
+                    }
+                }
+                else
+                {
+                    foreach (var z in GenerateIntercardinalUnsafeTiles(pos))
+                    {
+                        tiles.Add(z);
+                    }
+                }
+                var elements = new List<Element>();
+                foreach (var x in tiles.Where(x => P.config.HighlightSourceTiles || x != pos))
+                {
+                    elements.Add(CreateElement(x));
+                }
+                Splatoon.AddDynamicElements("Splatoon test", elements.ToArray(), new long[] { Environment.TickCount64 + 10000, -1, -2 });
             }
         }
     }
