@@ -48,7 +48,7 @@ namespace AbyssosToolbox
         {
             if (a1 != null && a1->NameID == 0x6C)
             {
-                DuoLog.Information($"Swaps: {(IntPtr)a1:X16}, {a2}, {a3}, {targetOID:X16}, {a5}");
+                PluginLog.Information($"Swaps: {(IntPtr)a1:X16}, {a2}, {a3}, {targetOID:X16}, {a5}");
                 P.Swaps.Add(a1->GameObject.ObjectID);
                 P.Swaps.Add((uint)targetOID);
                 P.ProcessAt = Environment.TickCount64 + 500;
@@ -62,12 +62,12 @@ namespace AbyssosToolbox
             Addr = a1;
             if (a2 > 0)
             {
-                DuoLog.Information($"MapEffect: {a2}, {a3}, {a4}");
+                PluginLog.Information($"MapEffect: {a2}, {a3}, {a4}");
                 {
                     if (a3 == 1 && a4 == 2 && Data.MapEffects.TryGetValue((int)a2, out var v))
                     {
                         P.CardinalTiles.Add(v);
-                        DuoLog.Information($"Cardinal tile: {v}");
+                        PluginLog.Information($"Cardinal tile: {v}");
                         P.ProcessAt = Environment.TickCount64 + 500;
                     }
                 }
@@ -75,14 +75,14 @@ namespace AbyssosToolbox
                     if (a3 == 32 && a4 == 64 && Data.MapEffects.TryGetValue((int)a2, out var v))
                     {
                         P.IntercardinalTiles.Add(v);
-                        DuoLog.Information($"Intercardinal tile: {v}");
+                        PluginLog.Information($"Intercardinal tile: {v}");
                         P.ProcessAt = Environment.TickCount64 + 500;
                     }
                 }
             }
             else
             {
-                DuoLog.Information("Mechanic start/end");
+                PluginLog.Information("Mechanic start/end");
                 P.ResetMechanic();
                 Splatoon.RemoveDynamicElements("AbyssosToolbox.P6S_Tiles");
             }

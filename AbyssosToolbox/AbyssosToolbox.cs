@@ -63,13 +63,13 @@ namespace AbyssosToolbox
                             {
                                 CardinalTiles.Remove(swapped);
                                 IntercardinalTiles.Add(swapped);
-                                DuoLog.Information($"Swapping +->X {swapped}");
+                                PluginLog.Information($"Swapping +->X {swapped}");
                             }
                             else if (IntercardinalTiles.TryGetFirst(z => Vector2.Distance(z, x.Position.ToVector2()) < 1, out var swapped2))
                             {
                                 IntercardinalTiles.Remove(swapped2);
                                 CardinalTiles.Add(swapped2);
-                                DuoLog.Information($"Swapping X->+ {swapped2}");
+                                PluginLog.Information($"Swapping X->+ {swapped2}");
                             }
                         }
                     }
