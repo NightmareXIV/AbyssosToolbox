@@ -17,13 +17,29 @@ namespace AbyssosToolbox
 
         internal static void Draw()
         {
-            /*ImGui.InputInt("1", ref a1);
+            ImGuiEx.EzTabBar("ABT",
+                ("P6S Tiles", DrawTabSettings, null, true),
+                ("Debug", DrawTabDebug, ImGuiColors.DalamudGrey3, true),
+                ("Contribute", ECommons.ImGuiMethods.Donation.DonationTabDraw, ImGuiColors.ParsedGold, true)
+
+                );
+        }
+
+        internal static void DrawTabDebug()
+        {
+            ImGuiEx.Text(ImGuiColors.DalamudRed, "Careful!");
+            ImGui.InputInt("1", ref a1);
             ImGui.InputInt("2", ref a2);
             ImGui.InputInt("3", ref a3);
             if (P.memory.Addr != 0 && ImGui.Button("Invoke"))
             {
                 P.memory.ProcessMapEffectHook.Original(P.memory.Addr, (uint)a1, (ushort)a2, (ushort)a3);
-            }*/
+            }
+        }
+
+        internal static void DrawTabSettings()
+        {
+            /**/
             var c = P.config.Color.ToVector4();
             if(ImGui.ColorEdit4("Color", ref c, ImGuiColorEditFlags.NoInputs))
             {
@@ -31,9 +47,9 @@ namespace AbyssosToolbox
             }
             ImGuiEx.TextWrapped(ImGuiColors.DalamudOrange, "These settings are subject to Splatoon general settings");
             ImGui.SetNextItemWidth(60);
-            ImGui.DragFloat("Thickness", ref P.config.Thickness, 0.01f, 1f, 100f);
+            ImGui.DragFloat("Thickness", ref P.config.Thickness, 0.01f, 0.01f, 100f);
             ImGui.SetNextItemWidth(60);
-            ImGui.DragFloat("Fill step", ref P.config.FillStep, 0.01f, 1f, 100f);
+            ImGui.DragFloat("Fill step", ref P.config.FillStep, 0.01f, 0.01f, 100f);
             ImGui.Checkbox("Highlight source tiles", ref P.config.HighlightSourceTiles);
             if (ImGui.Button("Test splatoon connection"))
             {
