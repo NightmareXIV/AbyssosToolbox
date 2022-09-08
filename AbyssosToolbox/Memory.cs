@@ -46,12 +46,19 @@ namespace AbyssosToolbox
 
         long ProcessTetherDetour(Character* a1, byte a2, byte a3, long targetOID, byte a5)
         {
-            if (a1 != null && a1->NameID == 0x6C && targetOID != 0xe0000000)
+            try
             {
-                PluginLog.Information($"Swaps: {(IntPtr)a1:X16}, {a2}, {a3}, {targetOID:X16}, {a5}");
-                P.Swaps.Add(a1->GameObject.ObjectID);
-                P.Swaps.Add((uint)targetOID);
-                P.ProcessAt = Environment.TickCount64 + 500;
+                if (Svc.ClientState.TerritoryType == P6S && a1 != null && a1->NameID == 0x6C && targetOID != 0xe0000000)
+                {
+                    PluginLog.Information($"Swaps: {(IntPtr)a1:X16}, {a2}, {a3}, {targetOID:X16}, {a5}");
+                    P.Swaps.Add(a1->GameObject.ObjectID);
+                    P.Swaps.Add((uint)targetOID);
+                    P.ProcessAt = Environment.TickCount64 + 500;
+                }
+            }
+            catch(Exception e)
+            {
+                e.Log();
             }
             return ProcessTetherHook.Original(a1, a2, a3, targetOID, a5);
         }
@@ -60,31 +67,42 @@ namespace AbyssosToolbox
         internal long ProcessMapEffectDetour(long a1, uint a2, ushort a3, ushort a4)
         {
             Addr = a1;
-            if (a2 > 0)
+            try
             {
-                PluginLog.Information($"MapEffect: {a2}, {a3}, {a4}");
+                if (Svc.ClientState.TerritoryType == P6S)
                 {
-                    if (a3 == 1 && a4 == 2 && Data.MapEffects.TryGetValue((int)a2, out var v))
+                    if (a2 > 0)
                     {
-                        P.CardinalTiles.Add(v);
-                        PluginLog.Information($"Cardinal tile: {v}");
-                        P.ProcessAt = Environment.TickCount64 + 500;
+                        PluginLog.Information($"P6S MapEffect: {a2}, {a3}, {a4}");
+                        {
+                            if (a3 == 1 && a4 == 2 && Data.MapEffects.TryGetValue((int)a2, out var v))
+                            {
+                                P.CardinalTiles.Add(v);
+                                PluginLog.Information($"Cardinal tile: {v}");
+                                P.ProcessAt = Environment.TickCount64 + 500;
+                            }
+                        }
+                        {
+                            if (a3 == 32 && a4 == 64 && Data.MapEffects.TryGetValue((int)a2, out var v))
+                            {
+                                P.IntercardinalTiles.Add(v);
+                                PluginLog.Information($"Intercardinal tile: {v}");
+                                P.ProcessAt = Environment.TickCount64 + 500;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        PluginLog.Information("Mechanic start/end");
+                        P.ResetMechanic();
+                        Splatoon.RemoveDynamicElements("AbyssosToolbox.P6S_Tiles");
                     }
                 }
-                {
-                    if (a3 == 32 && a4 == 64 && Data.MapEffects.TryGetValue((int)a2, out var v))
-                    {
-                        P.IntercardinalTiles.Add(v);
-                        PluginLog.Information($"Intercardinal tile: {v}");
-                        P.ProcessAt = Environment.TickCount64 + 500;
-                    }
-                }
+                DuoLog.Information($"MapEffect: {a2}, {a3}, {a4}");
             }
-            else
+            catch(Exception e)
             {
-                PluginLog.Information("Mechanic start/end");
-                P.ResetMechanic();
-                Splatoon.RemoveDynamicElements("AbyssosToolbox.P6S_Tiles");
+                e.Log();
             }
             return ProcessMapEffectHook.Original(a1, a2, a3, a4);
         }

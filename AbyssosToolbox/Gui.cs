@@ -28,6 +28,11 @@ namespace AbyssosToolbox
         internal static void DrawTabDebug()
         {
             ImGuiEx.Text(ImGuiColors.DalamudRed, "Careful!");
+            if(ImGui.Checkbox("Always enabled", ref P.config.AlwaysEnable))
+            {
+                P.ClientState_TerritoryChanged(null, Svc.ClientState.TerritoryType);
+            }
+            ImGui.Checkbox("Log MapEffects to chat", ref P.config.LogToChat);
             ImGui.InputInt("1", ref a1);
             ImGui.InputInt("2", ref a2);
             ImGui.InputInt("3", ref a3);

@@ -14,5 +14,7 @@ namespace AbyssosToolbox
         public float FillStep = 0.5f;
         public float Thickness = 2f;
         public bool HighlightSourceTiles = true;
+        public bool AlwaysEnable = false;
+        public bool LogToChat = false;
     }
 }

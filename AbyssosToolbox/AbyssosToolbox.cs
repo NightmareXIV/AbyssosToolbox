@@ -36,18 +36,18 @@ namespace AbyssosToolbox
             Svc.ClientState.TerritoryChanged += ClientState_TerritoryChanged;
         }
 
-        private void ClientState_TerritoryChanged(object sender, ushort e)
+        internal void ClientState_TerritoryChanged(object sender, ushort e)
         {
-            if(e == P6S)
+            if(e == P6S || P.config.AlwaysEnable)
             {
                 Combat = Svc.Condition[ConditionFlag.InCombat];
-                PluginLog.Information("Detected P6S, enabling hooks");
+                PluginLog.Information($"Detected zone: {e}, enabling hooks");
                 memory.Enable();
                 Svc.Framework.Update += Framework_Update;
             }
             else
             {
-                PluginLog.Information("Exiting P6S, disabling hooks");
+                PluginLog.Information("Detected zone: {e}, disabling hooks");
                 memory.Disable();
                 Svc.Framework.Update -= Framework_Update;
             }
