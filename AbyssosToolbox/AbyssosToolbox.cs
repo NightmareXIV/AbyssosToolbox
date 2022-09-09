@@ -47,7 +47,7 @@ namespace AbyssosToolbox
             }
             else
             {
-                PluginLog.Information("Detected zone: {e}, disabling hooks");
+                PluginLog.Information($"Detected zone: {e}, disabling hooks");
                 memory.Disable();
                 Svc.Framework.Update -= Framework_Update;
             }
