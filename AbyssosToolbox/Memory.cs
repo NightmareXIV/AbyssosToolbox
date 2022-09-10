@@ -23,8 +23,8 @@ namespace AbyssosToolbox
         internal long Addr = 0;
 
         delegate long ProcessTether(Character* a1, byte a2, byte a3, long targetOID, byte a5);
-        [Signature("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 41 54 41 55 41 56 41 57 48 83 EC 20 0F B6 6C 24", DetourName =nameof(ProcessTetherDetour))]
-        Hook<ProcessTether> ProcessTetherHook;
+        [Signature("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 41 54 41 55 41 56 41 57 48 83 EC 20 0F B6 6C 24", DetourName =nameof(ProcessTetherDetour), Fallibility = Fallibility.Infallible)]
+        Hook<ProcessTether> ProcessTetherHook = null;
 
 
         internal Memory()
@@ -93,12 +93,15 @@ namespace AbyssosToolbox
                     }
                     else
                     {
-                        PluginLog.Information("Mechanic start/end");
                         P.ResetMechanic();
                         Splatoon.RemoveDynamicElements("AbyssosToolbox.P6S_Tiles");
+                        PluginLog.Information("Clearing tiles");
                     }
                 }
-                DuoLog.Information($"MapEffect: {a2}, {a3}, {a4}");
+                if (P.config.AlwaysEnable)
+                {
+                    DuoLog.Information($"MapEffect: {a2}, {a3}, {a4}");
+                }
             }
             catch(Exception e)
             {

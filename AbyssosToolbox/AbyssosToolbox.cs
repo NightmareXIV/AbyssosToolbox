@@ -24,7 +24,7 @@ namespace AbyssosToolbox
         public AbyssosToolbox(DalamudPluginInterface pi)
         {
             P = this;
-            ECommons.ECommons.Init(pi, Module.SplatoonAPI);
+            ECommons.ECommons.Init(pi, this, Module.SplatoonAPI);
             new TickScheduler(delegate
             {
                 config = Svc.PluginInterface.GetPluginConfig() as Config ?? new();
@@ -66,7 +66,9 @@ namespace AbyssosToolbox
                 {
                     PluginLog.Information("Exiting combat");
                 }
+                ResetMechanic();
                 Splatoon.RemoveDynamicElements("AbyssosToolbox.P6S_Tiles");
+                PluginLog.Information("Clearing tiles");
             }
             if(Environment.TickCount64 > ProcessAt)
             {
@@ -143,6 +145,7 @@ namespace AbyssosToolbox
 
         internal void ResetMechanic()
         {
+            PluginLog.Information($"Performing reset");
             ProcessAt = long.MaxValue;
             Swaps.Clear();
             IntercardinalTiles.Clear();
