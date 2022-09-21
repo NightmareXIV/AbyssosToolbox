@@ -69,7 +69,8 @@ namespace AbyssosToolbox
             Addr = a1;
             try
             {
-                if (Svc.ClientState.TerritoryType == P6S)
+                if (Svc.ClientState.TerritoryType == P6S
+                    && (Svc.Condition[ConditionFlag.InCombat] || Svc.Condition[ConditionFlag.DutyRecorderPlayback]))
                 {
                     if (a2 > 0)
                     {

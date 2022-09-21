@@ -78,7 +78,7 @@ namespace AbyssosToolbox
                 var elements = new List<Element>();
                 foreach (var x in tiles.Where(x => P.config.HighlightSourceTiles || x != pos))
                 {
-                    elements.Add(CreateElement(x));
+                    elements.Add(CreateElement(x, Svc.ClientState.LocalPlayer.Position.Y));
                 }
                 Splatoon.AddDynamicElements("AbyssosToolbox.P6S_Tiles", elements.ToArray(), new long[] { Environment.TickCount64 + 10000, -1, -2 });
             }
