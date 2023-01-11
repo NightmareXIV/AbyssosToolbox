@@ -6,6 +6,6 @@
   "Description": "An assistance tool for fights in Abyssos.",
   "ApplicableVersion": "any",
   "RepoUrl": "https://github.com/NightmareXIV/AbyssosToolbox",
-  "DalamudApiLevel": 7,
+  "DalamudApiLevel": 8,
   "LoadPriority": 0
 }
