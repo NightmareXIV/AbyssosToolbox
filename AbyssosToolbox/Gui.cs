@@ -17,11 +17,11 @@ namespace AbyssosToolbox
 
         internal static void Draw()
         {
+            KoFiButton.DrawRight();
             ImGuiEx.EzTabBar("ABT",
                 ("P6S Tiles", DrawTabSettings, null, true),
                 ("Debug", DrawTabDebug, ImGuiColors.DalamudGrey3, true),
-                ("Log", InternalLog.PrintImgui, ImGuiColors.DalamudGrey3, false),
-                ("Contribute", ECommons.ImGuiMethods.Donation.DonationTabDraw, ImGuiColors.ParsedGold, true)
+                ("Log", InternalLog.PrintImgui, ImGuiColors.DalamudGrey3, false)
 
                 );
         }

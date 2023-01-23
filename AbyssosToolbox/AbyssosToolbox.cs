@@ -24,12 +24,12 @@ namespace AbyssosToolbox
         public AbyssosToolbox(DalamudPluginInterface pi)
         {
             P = this;
-            ECommons.ECommons.Init(pi, this, Module.SplatoonAPI);
+            ECommonsMain.Init(pi, this, Module.SplatoonAPI);
             new TickScheduler(delegate
             {
                 config = Svc.PluginInterface.GetPluginConfig() as Config ?? new();
                 memory = new();
-                EzConfigGui.Init(this.Name, Gui.Draw, config);
+                EzConfigGui.Init(Gui.Draw, config);
                 EzCmd.Add("/abyssos", EzConfigGui.Open, "Open plugin interface");
                 ClientState_TerritoryChanged(null, Svc.ClientState.TerritoryType);
             });
@@ -175,7 +175,7 @@ namespace AbyssosToolbox
             Svc.ClientState.TerritoryChanged -= ClientState_TerritoryChanged;
             Svc.Framework.Update -= Framework_Update;
             memory.Dispose();
-            ECommons.ECommons.Dispose();
+            ECommonsMain.Dispose();
             P = null;
         }
     }
