@@ -31,12 +31,12 @@ namespace AbyssosToolbox
                 memory = new();
                 EzConfigGui.Init(Gui.Draw, config);
                 EzCmd.Add("/abyssos", EzConfigGui.Open, "Open plugin interface");
-                ClientState_TerritoryChanged(null, Svc.ClientState.TerritoryType);
+                ClientState_TerritoryChanged( Svc.ClientState.TerritoryType);
             });
             Svc.ClientState.TerritoryChanged += ClientState_TerritoryChanged;
         }
 
-        internal void ClientState_TerritoryChanged(object sender, ushort e)
+        internal void ClientState_TerritoryChanged(ushort e)
         {
             if(e == P6S || P.config.AlwaysEnable)
             {
@@ -53,7 +53,7 @@ namespace AbyssosToolbox
             }
         }
 
-        private void Framework_Update(Dalamud.Game.Framework framework)
+        private void Framework_Update(object framework)
         {
             if (Svc.Condition[ConditionFlag.InCombat] != Combat)
             {

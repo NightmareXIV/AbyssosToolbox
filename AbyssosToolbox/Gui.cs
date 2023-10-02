@@ -31,7 +31,7 @@ namespace AbyssosToolbox
             ImGuiEx.Text(ImGuiColors.DalamudRed, "Careful!");
             if(ImGui.Checkbox("Always enabled", ref P.config.AlwaysEnable))
             {
-                P.ClientState_TerritoryChanged(null, Svc.ClientState.TerritoryType);
+                P.ClientState_TerritoryChanged(Svc.ClientState.TerritoryType);
             }
             ImGui.Checkbox("Log MapEffects to chat", ref P.config.LogToChat);
             ImGui.InputInt("1", ref a1);
