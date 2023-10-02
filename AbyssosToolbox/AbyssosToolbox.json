@@ -1,11 +1,10 @@
 ﻿{
-  "Author": "NightmareXIV",
-  "Name": "AbyssosToolbox",
-  "InternalName": "AbyssosToolbox",
-  "AssemblyVersion": "9.0.0.0",
-  "Description": "An assistance tool for fights in Abyssos.",
-  "ApplicableVersion": "any",
-  "RepoUrl": "https://github.com/NightmareXIV/AbyssosToolbox",
-  "DalamudApiLevel": 8,
-  "LoadPriority": 0
+    "Author": "NightmareXIV",
+    "Name": "AbyssosToolbox",
+    "InternalName": "AbyssosToolbox",
+    "Punchline": "An assistance tool for fights in Abyssos.",
+    "Description": "An assistance tool for fights in Abyssos.",
+    "ApplicableVersion": "any",
+    "RepoUrl": "https://github.com/NightmareXIV/AbyssosToolbox",
+    "LoadPriority": 0
 }

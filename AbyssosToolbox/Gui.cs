@@ -1,4 +1,5 @@
 ﻿using ECommons.MathHelpers;
+using ECommons.Reflection;
 using ECommons.SplatoonAPI;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,17 @@ namespace AbyssosToolbox
 
         internal static void DrawTabDebug()
         {
+            try
+            {
+                if(DalamudReflector.TryGetDalamudPlugin("Splatoon", out var name))
+                {
+                    ImGuiEx.Text($"instance: {name}, disposed={name.GetFoP<bool>("Disposed")}");
+                }
+            }
+            catch(Exception e)
+            {
+                ImGuiEx.Text(e.ToString());
+            }
             ImGuiEx.Text(ImGuiColors.DalamudRed, "Careful!");
             if(ImGui.Checkbox("Always enabled", ref P.config.AlwaysEnable))
             {
