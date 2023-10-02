@@ -2,6 +2,7 @@
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
+using ECommons.DalamudServices.Legacy;
 using ECommons.GameFunctions;
 using ECommons.SplatoonAPI;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
