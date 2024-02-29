@@ -9,3 +9,4 @@ jobs:
   TriggerUpdatePluginmaster:
     uses:
       NightmareXIV/MyDalamudPlugins/.github/workflows/Trigger_Update_Pluginmaster.yml@main
+    secrets: inherit
